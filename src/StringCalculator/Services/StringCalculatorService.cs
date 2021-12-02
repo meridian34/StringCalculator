@@ -22,8 +22,8 @@ namespace StringCalculator.Services
 
             if (IsCustomDelimiter(data))
             {
-                _customDelimiter = GetCustomDelimiter(data);
-                return GetSum(GetNumbers(data, _customDelimiter));
+                _customDelimiter = GetCustomDelimiter(data);                
+                return GetSum(GetNumbers(CustomDataClear(data), _customDelimiter));
             }
 
             return GetSum(GetNumbers(data, _defaultDelimiters));
@@ -49,7 +49,10 @@ namespace StringCalculator.Services
         {
             return data.Split(delimiter);
         }
-
+        private string CustomDataClear(string data)
+        {
+            return data.Replace($"{_customDelimiterStartMarker}{_customDelimiter}{_customDelimiterEndMarker}", "");
+        }
         private int GetSum(IReadOnlyCollection<string> numbers)
         {
             var sum = 0;
@@ -57,6 +60,7 @@ namespace StringCalculator.Services
             {
                 foreach (var i in numbers)
                 {
+                    
                     sum += int.Parse(i);
                 }
             }
