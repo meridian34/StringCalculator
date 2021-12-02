@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\service\Task1.StringCalculator\Task1.StringCalculator.csproj" />
+    <ProjectReference Include="..\..\service\Task1.StringCalculator\StringCalculator.csproj" />
   </ItemGroup>
 
 </Project>
