@@ -14,7 +14,7 @@ namespace Task1.StringCalculator.Services
             {
                 return 0;
             }
-            var separatedSymbols = numbers.Split(',');
+            var separatedSymbols = numbers.Split(',','\n');
             var sum = 0;
             try
             {
