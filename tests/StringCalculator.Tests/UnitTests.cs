@@ -49,7 +49,7 @@ namespace StringCalculator.Tests
         }
 
         [Fact]
-        public void Test2_Sum_Success()
+        public void Task2_Sum_Success()
         {
             //arrange
             var numbers = "2,3,4,5";
@@ -62,7 +62,7 @@ namespace StringCalculator.Tests
         }
 
         [Fact]
-        public void Test3_Sum_Success()
+        public void Task3_Sum_Success()
         {
             //arrange
             var numbers = "1\n2,3";
@@ -72,6 +72,19 @@ namespace StringCalculator.Tests
 
             //assert
             result.Should().Be(6);
+        }
+
+        [Fact]
+        public void Task4_Sum_Success()
+        {
+            //arrange
+            var numbers = "//;\n1;2";
+
+            //act
+            var result = _service.Sum(numbers);
+
+            //assert
+            result.Should().Be(3);
         }
     }
 }
