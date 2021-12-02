@@ -47,6 +47,6 @@ namespace Task1.StringCalculator.Test
 
             //assert
             result.Should().Be(1);
-        }
+        }        
     }
 }
