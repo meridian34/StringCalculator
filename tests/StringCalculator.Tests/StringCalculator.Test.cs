@@ -1,12 +1,17 @@
 using FluentAssertions;
 using System;
-using Task1.StringCalculator.Services;
+using StringCalculator.Services;
 using Xunit;
 
 namespace Task1.StringCalculator.Test
 {
     public class UnitTest1
     {
+        public UnitTest1()
+        {
+
+        }
+
         [Fact]
         public void Test1_Success()
         {
