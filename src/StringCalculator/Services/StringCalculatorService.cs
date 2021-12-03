@@ -10,9 +10,11 @@ namespace StringCalculator.Services
     {
         private readonly string _customDelimiterStartMarker = "//";
         private readonly string _customDelimiterEndMarker = "\n";
+        private readonly string _customLenghtStartMarker = "[";
+        private readonly string _customLenghtEndMarker = "]";
         private readonly string[] _defaultDelimiters = { ",", "\n" };
         private readonly int _biggerNumber = 1000;
-        private string _customDelimiter;
+        private IReadOnlyCollection<string> _customDelimiters;
 
         public int Sum(string data)
         {
@@ -23,12 +25,11 @@ namespace StringCalculator.Services
 
             if (IsCustomDelimiter(data))
             {
-                _customDelimiter = GetCustomDelimiter(data);                
-                return GetSum(GetNumbers(CustomDataClear(data), _customDelimiter));
+                _customDelimiters = GetCustomDelimiters(data);
+                return GetSum(GetNumbers(ClearCustomDelimiterData(data), _customDelimiters));
             }
 
             return GetSum(GetNumbers(data, _defaultDelimiters));
-            
         }
 
         private bool IsCustomDelimiter(string data)
@@ -36,27 +37,37 @@ namespace StringCalculator.Services
             return data.Contains(_customDelimiterStartMarker) && data.Contains(_customDelimiterEndMarker);
         }
 
-        private string GetCustomDelimiter(string data)
+        private IReadOnlyCollection<string> GetCustomDelimiters(string data)
         {
+            var result = new List<string>();
             var separatedData = data.Split(_customDelimiterEndMarker);
-            return separatedData[0].Replace(_customDelimiterStartMarker, string.Empty);
+            var delimiterBody = separatedData[0].Replace(_customDelimiterStartMarker, string.Empty);
+            if (delimiterBody.Contains(_customLenghtStartMarker) && delimiterBody.Contains(_customLenghtEndMarker))
+            {
+                var separator = new string[] { _customLenghtStartMarker, _customLenghtEndMarker };
+                var splitDelimiters = delimiterBody.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                result.AddRange(splitDelimiters);
+                return result;
+            }
+            else
+            {
+                result.Add(delimiterBody);
+                return result;
+            }
+        }
+        private string ClearCustomDelimiterData(string data)
+        {
+            var splitData = data.Split(_customDelimiterEndMarker);
+            return splitData[1];
         }
 
         private IReadOnlyCollection<string> GetNumbers(string data, IReadOnlyCollection<string> delimiters)
         {
             return data.Split(delimiters.ToArray<string>(), StringSplitOptions.None);            
         }
-        private IReadOnlyCollection<string> GetNumbers(string data, string delimiter)
-        {
-            return data.Split(delimiter);
-        }
-        private string CustomDataClear(string data)
-        {
-            return data.Replace($"{_customDelimiterStartMarker}{_customDelimiter}{_customDelimiterEndMarker}", "");
-        }
+
         private int GetSum(IReadOnlyCollection<string> numbers)
         {
-            
             var convertedNumbers = ConvertNumbersToInt(numbers);
             var negativeNumbers = GetNegativeNumbers(convertedNumbers);
             if (negativeNumbers.Count > 0)
@@ -72,22 +83,19 @@ namespace StringCalculator.Services
             var convertedNumbers = new List<int>();
             foreach (var i in numbers)
             {
-                convertedNumbers.Add(int.Parse(i));
+                var convertedNum = 0;
+                var isConverted = int.TryParse(i, out convertedNum);
+                if (isConverted)
+                {
+                    convertedNumbers.Add(convertedNum);
+                }
             }
             return convertedNumbers;
         }
 
         private IReadOnlyCollection<int> GetNegativeNumbers(IReadOnlyCollection<int> numbers)
         {
-            var negativeNumbers = new List<int>();
-            foreach(var number in numbers)
-            {
-                if (number < 0)
-                {
-                    negativeNumbers.Add(number);
-                }
-            }
-            return negativeNumbers;
+            return numbers.Where(x => x < 0).ToList();
         }
         
         private IReadOnlyCollection<int> DeleteBiggerNumbers(IReadOnlyCollection<int> numbers)
