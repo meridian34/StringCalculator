@@ -56,19 +56,38 @@ namespace StringCalculator.Services
         private int GetSum(IReadOnlyCollection<string> numbers)
         {
             var sum = 0;
-            try
+            var convertedNumbers = ConvertNumbersToInt(numbers);
+            var negativeNumbers = GetNegativeNumbers(convertedNumbers);
+            if (negativeNumbers.Count > 0)
             {
-                foreach (var i in numbers)
-                {
-                    
-                    sum += int.Parse(i);
-                }
+                throw new ArgumentException($"negatives not allowed: {string.Join(" ", negativeNumbers)}");
             }
-            catch (Exception)
-            {
-                return 0;
-            }
+            sum = convertedNumbers.Sum();
             return sum;
         }
+
+        private IReadOnlyCollection<int> ConvertNumbersToInt(IReadOnlyCollection<string> numbers)
+        {
+            var convertedNumbers = new List<int>();
+            foreach (var i in numbers)
+            {
+                convertedNumbers.Add(int.Parse(i));
+            }
+            return convertedNumbers;
+        }
+
+        private IReadOnlyCollection<int> GetNegativeNumbers(IReadOnlyCollection<int> numbers)
+        {
+            var negativeNumbers = new List<int>();
+            foreach(var number in numbers)
+            {
+                if (number < 0)
+                {
+                    negativeNumbers.Add(number);
+                }
+            }
+            return negativeNumbers;
+        }
+        
     }
 }
