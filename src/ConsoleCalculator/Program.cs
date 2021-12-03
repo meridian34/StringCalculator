@@ -1,4 +1,5 @@
 ﻿using ConsoleCalculator.Services;
+using StringCalculator.Services;
 using System;
 
 namespace ConsoleCalculator
@@ -7,8 +8,11 @@ namespace ConsoleCalculator
     {
         static void Main(string[] args)
         {
-            var service = new ConsoleService();
-            service.Start();
+            var stringCalculateService = new StringCalculatorService();
+            var consoleService = new ConsoleService();
+            var consoleCalculateService = new ConsoleCalculateService(stringCalculateService, consoleService);
+            consoleCalculateService.Start();
+            
         }
     }
 }

@@ -1,34 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ConsoleCalculator.Services.Abstractions;
 using StringCalculator.Services;
 
 namespace ConsoleCalculator.Services
 {
-    public class ConsoleService
+    public class ConsoleService : IConsoleService
     {
-        private readonly StringCalculatorService _calculator = new StringCalculatorService();
-
-        public void Start()
+        public string ReadLine()
         {
-            Console.WriteLine("Enter comma separated numbers (enter to exit):");
-            var sum = _calculator.Sum(Console.ReadLine());
-            Console.WriteLine($"Result is: {sum}");
-            TryCalculateAgain();
+            return Console.ReadLine();
         }
 
-        private void TryCalculateAgain()
-        {   
-            Console.WriteLine("you can enter other numbers (enter to exit)?");
-            var result = Console.ReadLine();
-            if (!string.IsNullOrEmpty(result))
-            {
-                var sum = _calculator.Sum(result);
-                Console.WriteLine($"Result is: {sum}");
-                TryCalculateAgain();
-            }
+        public void WriteLine(string data)
+        {
+            Console.WriteLine(data);
         }
     }
 }
