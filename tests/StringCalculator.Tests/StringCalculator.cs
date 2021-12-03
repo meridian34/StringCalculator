@@ -5,12 +5,12 @@ using Xunit;
 
 namespace StringCalculator.Tests
 {
-    public class UnitTests
+    public class StringCalculator
     {
         private readonly StringCalculatorService _service = new StringCalculatorService();
 
         [Fact]
-        public void Task1_1_Sum_Success()
+        public void Sum_TwoNumbers_ShouldReturnSum()
         {
             //arrange
             var numbers = "2,3";            
@@ -23,7 +23,7 @@ namespace StringCalculator.Tests
         }
 
         [Fact]
-        public void Task1_2_Sum_Success()
+        public void Sum_EmptyString_ShouldReturnZero()
         {
             //arrange
             var numbers = "";            
@@ -36,7 +36,7 @@ namespace StringCalculator.Tests
         }
 
         [Fact]
-        public void Task1_3_Sum_Success()
+        public void Sum_OneNumber_ShouldReturnOneNumber()
         {
             //arrange
             var numbers = "1";
@@ -49,7 +49,7 @@ namespace StringCalculator.Tests
         }
 
         [Fact]
-        public void Task2_Sum_Success()
+        public void Sum_MultipleNumbers_ShouldReturnSum()
         {
             //arrange
             var numbers = "2,3,4,5";
@@ -62,7 +62,7 @@ namespace StringCalculator.Tests
         }
 
         [Fact]
-        public void Task3_Sum_Success()
+        public void Sum_MultipleNumbersWithDifferentDefaultDelimiters_ShouldReturnSum()
         {
             //arrange
             var numbers = "1\n2,3";
@@ -75,7 +75,7 @@ namespace StringCalculator.Tests
         }
 
         [Fact]
-        public void Task4_Sum_Success()
+        public void Sum_TwoNumbersWithCustomDelimiter_ShouldReturnSum()
         {
             //arrange
             var numbers = "//;\n1;2";
@@ -88,7 +88,7 @@ namespace StringCalculator.Tests
         }
 
         [Fact]
-        public void Task5_Sum_Success()
+        public void Sum_MultipleNumbersWithNegativeNumbers_ShouldReturnException()
         {
             //arrange
             var numbers = "//;\n1;2;-3;-5";
@@ -111,7 +111,7 @@ namespace StringCalculator.Tests
         }
 
         [Fact]
-        public void Task6_Sum_Success()
+        public void Sum_MultipleNumbersWithBiggerNumber_ShouldReturnSumWithoutBiggerNumber()
         {
             //arrange
             var numbers = "//;\n1;2;1001;1";
@@ -121,6 +121,32 @@ namespace StringCalculator.Tests
 
             //assert
             result.Should().Be(4);
+        }
+
+        [Fact]
+        public void Sum_MultipleNumbersWithLongDelimiter_ShouldReturnSum()
+        {
+            //arrange
+            var numbers = "//[***]\n1***2***3";
+
+            //act
+            var result = _service.Sum(numbers);
+
+            //assert
+            result.Should().Be(6);
+        }
+
+        [Fact]
+        public void Sum_MultipleNumbersWithMultipleDelimiter_ShouldReturnSum()
+        {
+            //arrange
+            var numbers = "//[*][%]\n1*2%3";
+
+            //act
+            var result = _service.Sum(numbers);
+
+            //assert
+            result.Should().Be(6);
         }
     }
 }
