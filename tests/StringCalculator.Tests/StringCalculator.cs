@@ -148,5 +148,18 @@ namespace StringCalculator.Tests
             //assert
             result.Should().Be(6);
         }
+
+        [Fact]
+        public void Sum_MultipleNumbersWithMultipleLongDelimiter_ShouldReturnSum()
+        {
+            //arrange
+            var numbers = "//[***][%%%]\n1***2%%%3";
+
+            //act
+            var result = _service.Sum(numbers);
+
+            //assert
+            result.Should().Be(6);
+        }
     }
 }
