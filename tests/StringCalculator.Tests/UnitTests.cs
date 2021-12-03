@@ -86,5 +86,28 @@ namespace StringCalculator.Tests
             //assert
             result.Should().Be(3);
         }
+
+        [Fact]
+        public void Task5_Sum_Success()
+        {
+            //arrange
+            var numbers = "//;\n1;2;-3;-5";
+            var exception = new Exception();
+            var expectedType = typeof(ArgumentException);
+            var expectedMessage = "negatives not allowed: -3 -5";
+            //act
+            try
+            {
+                _service.Sum(numbers);
+            }
+            catch (Exception e)
+            {
+                exception = e;
+            }
+
+            //assert
+            exception.GetType().Should().Be(expectedType);
+            exception.Message.Should().Be(expectedMessage);
+        }
     }
 }
