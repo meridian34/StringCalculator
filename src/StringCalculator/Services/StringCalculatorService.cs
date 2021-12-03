@@ -11,6 +11,7 @@ namespace StringCalculator.Services
         private readonly string _customDelimiterStartMarker = "//";
         private readonly string _customDelimiterEndMarker = "\n";
         private readonly string[] _defaultDelimiters = { ",", "\n" };
+        private readonly int _biggerNumber = 1000;
         private string _customDelimiter;
 
         public int Sum(string data)
@@ -55,15 +56,15 @@ namespace StringCalculator.Services
         }
         private int GetSum(IReadOnlyCollection<string> numbers)
         {
-            var sum = 0;
+            
             var convertedNumbers = ConvertNumbersToInt(numbers);
             var negativeNumbers = GetNegativeNumbers(convertedNumbers);
             if (negativeNumbers.Count > 0)
             {
                 throw new ArgumentException($"negatives not allowed: {string.Join(" ", negativeNumbers)}");
             }
-            sum = convertedNumbers.Sum();
-            return sum;
+            convertedNumbers = DeleteBiggerNumbers(convertedNumbers);
+            return convertedNumbers.Sum(); 
         }
 
         private IReadOnlyCollection<int> ConvertNumbersToInt(IReadOnlyCollection<string> numbers)
@@ -89,5 +90,9 @@ namespace StringCalculator.Services
             return negativeNumbers;
         }
         
+        private IReadOnlyCollection<int> DeleteBiggerNumbers(IReadOnlyCollection<int> numbers)
+        {
+            return numbers.Where(x => x < _biggerNumber).ToList();
+        }
     }
 }
