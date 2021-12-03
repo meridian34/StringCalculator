@@ -26,6 +26,7 @@ namespace StringCalculator.Services
             if (IsCustomDelimiter(data))
             {
                 _customDelimiters = GetCustomDelimiters(data);
+
                 return GetSum(GetNumbers(ClearCustomDelimiterData(data), _customDelimiters));
             }
 
@@ -42,23 +43,27 @@ namespace StringCalculator.Services
             var result = new List<string>();
             var separatedData = data.Split(_customDelimiterEndMarker);
             var delimiterBody = separatedData[0].Replace(_customDelimiterStartMarker, string.Empty);
-            if (delimiterBody.Contains(_customLenghtStartMarker) && delimiterBody.Contains(_customLenghtEndMarker))
+            var isLongCustomerDelimiter = delimiterBody.Contains(_customLenghtStartMarker) && delimiterBody.Contains(_customLenghtEndMarker);
+            if (isLongCustomerDelimiter)
             {
                 var separator = new string[] { _customLenghtStartMarker, _customLenghtEndMarker };
                 var splitDelimiters = delimiterBody.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 result.AddRange(splitDelimiters);
+
                 return result;
             }
             else
             {
                 result.Add(delimiterBody);
+
                 return result;
             }
         }
         private string ClearCustomDelimiterData(string data)
         {
-            var splitData = data.Split(_customDelimiterEndMarker);
-            return splitData[1];
+            var dataWithoutCustomDelimiterData = data.Split(_customDelimiterEndMarker)[1];
+
+            return dataWithoutCustomDelimiterData;
         }
 
         private IReadOnlyCollection<string> GetNumbers(string data, IReadOnlyCollection<string> delimiters)
@@ -74,7 +79,9 @@ namespace StringCalculator.Services
             {
                 throw new ArgumentException($"negatives not allowed: {string.Join(" ", negativeNumbers)}");
             }
+
             convertedNumbers = DeleteBiggerNumbers(convertedNumbers);
+
             return convertedNumbers.Sum(); 
         }
 
@@ -83,13 +90,13 @@ namespace StringCalculator.Services
             var convertedNumbers = new List<int>();
             foreach (var i in numbers)
             {
-                var convertedNum = 0;
-                var isConverted = int.TryParse(i, out convertedNum);
+                var isConverted = int.TryParse(i, out int convertedNum);
                 if (isConverted)
                 {
                     convertedNumbers.Add(convertedNum);
                 }
             }
+
             return convertedNumbers;
         }
 
