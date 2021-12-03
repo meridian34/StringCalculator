@@ -1,5 +1,5 @@
-using FluentAssertions;
 using System;
+using FluentAssertions;
 using StringCalculator.Services;
 using Xunit;
 
@@ -7,26 +7,13 @@ namespace StringCalculator.Tests
 {
     public class StringCalculatorServiceTests
     {
-        private readonly Services.StringCalculatorService _service = new Services.StringCalculatorService();
-
-        [Fact]
-        public void Sum_TwoNumbers_ShouldReturnSum()
-        {
-            //arrange
-            var numbers = "2,3";            
-
-            //act
-            var result = _service.Sum(numbers);
-
-            //assert
-            result.Should().Be(5);
-        }
+        private readonly StringCalculatorService _service = new StringCalculatorService();
 
         [Fact]
         public void Sum_EmptyString_ShouldReturnZero()
         {
             //arrange
-            var numbers = "";            
+            var numbers = "";
 
             //act
             var result = _service.Sum(numbers);
@@ -46,6 +33,19 @@ namespace StringCalculator.Tests
 
             //assert
             result.Should().Be(1);
+        }
+
+        [Fact]
+        public void Sum_TwoNumbers_ShouldReturnSum()
+        {
+            //arrange
+            var numbers = "2,3";
+
+            //act
+            var result = _service.Sum(numbers);
+
+            //assert
+            result.Should().Be(5);
         }
 
         [Fact]
