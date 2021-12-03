@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StringCalculator.Services.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StringCalculator.Services
 {
-    public class StringCalculatorService
+    public class StringCalculatorService : IStringCalculatorService
     {
         private const string _startCustomDelimiterDataMarker = "//";
         private const string _endCustomDelimiterDataMarker = "\n";
