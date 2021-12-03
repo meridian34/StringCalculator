@@ -5,9 +5,9 @@ using Xunit;
 
 namespace StringCalculator.Tests
 {
-    public class StringCalculator
+    public class StringCalculatorServiceTests
     {
-        private readonly StringCalculatorService _service = new StringCalculatorService();
+        private readonly Services.StringCalculatorService _service = new Services.StringCalculatorService();
 
         [Fact]
         public void Sum_TwoNumbers_ShouldReturnSum()
