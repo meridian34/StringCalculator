@@ -109,5 +109,18 @@ namespace StringCalculator.Tests
             exception.GetType().Should().Be(expectedType);
             exception.Message.Should().Be(expectedMessage);
         }
+
+        [Fact]
+        public void Task6_Sum_Success()
+        {
+            //arrange
+            var numbers = "//;\n1;2;1001;1";
+
+            //act
+            var result = _service.Sum(numbers);
+
+            //assert
+            result.Should().Be(4);
+        }
     }
 }
