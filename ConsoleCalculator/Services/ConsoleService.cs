@@ -1,17 +1,16 @@
 ﻿using System;
-using ConsoleCalculator.Services.Abstractions;
 using StringCalculator.Services;
 
 namespace ConsoleCalculator.Services
 {
-    public class ConsoleService : IConsoleService
+    public class ConsoleService
     {
-        public string ReadLine()
+        public virtual string ReadLine()
         {
             return Console.ReadLine();
         }
 
-        public void WriteLine(string data)
+        public virtual void WriteLine(string data)
         {
             Console.WriteLine(data);
         }

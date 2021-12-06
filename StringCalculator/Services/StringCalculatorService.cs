@@ -1,16 +1,15 @@
-﻿using StringCalculator.Services.Abstractions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace StringCalculator.Services
 {
-    public class StringCalculatorService : IStringCalculatorService
+    public class StringCalculatorService
     {
         private const string _startCustomDelimiterDataMarker = "//";
         private const string _endCustomDelimiterDataMarker = "\n";
 
-        public int Sum(string data)
+        public virtual int Sum(string data)
         {
             if (string.IsNullOrWhiteSpace(data))
             {
@@ -84,6 +83,7 @@ namespace StringCalculator.Services
         {
             return data.Contains(_endCustomDelimiterDataMarker) && data.Contains(_startCustomDelimiterDataMarker);
         }
+
 
         private IReadOnlyCollection<int> FilterNumbers(IReadOnlyCollection<int> numbers)
         {

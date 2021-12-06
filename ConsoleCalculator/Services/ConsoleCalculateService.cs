@@ -1,25 +1,19 @@
-﻿using ConsoleCalculator.Services.Abstractions;
-using StringCalculator.Services.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StringCalculator.Services;
 
 namespace ConsoleCalculator.Services
 {
-    public class ConsoleCalculateService : IConsoleCalculateService
+    public class ConsoleCalculateService
     {
-        private readonly IConsoleService _consoleService;
-        private readonly IStringCalculatorService _stringCalculatorService;
+        private readonly ConsoleService _consoleService;
+        private readonly StringCalculatorService _stringCalculatorService;
 
-        public ConsoleCalculateService(IStringCalculatorService stringCalculatorService, IConsoleService consoleService)
+        public ConsoleCalculateService(StringCalculatorService stringCalculatorService, ConsoleService consoleService)
         {
             _stringCalculatorService = stringCalculatorService;
             _consoleService = consoleService;
         }
 
-        public void Start()
+        public virtual void Start()
         {
             _consoleService.WriteLine("Enter comma separated numbers (enter to exit):");
             var data = _consoleService.ReadLine();
