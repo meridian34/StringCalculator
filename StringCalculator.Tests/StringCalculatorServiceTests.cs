@@ -1,5 +1,4 @@
 using System;
-using FluentAssertions;
 using StringCalculator.Services;
 using Xunit;
 
@@ -14,12 +13,13 @@ namespace StringCalculator.Tests
         {
             //arrange
             var numbers = "";
+            var expectedResult = 0;
 
             //act
             var result = _service.Sum(numbers);
 
             //assert
-            result.Should().Be(0);
+            Assert.Equal(result, expectedResult);
         }
 
         [Fact]
@@ -27,12 +27,13 @@ namespace StringCalculator.Tests
         {
             //arrange
             var numbers = "1";
+            var expectedResult = 1;
 
             //act
             var result = _service.Sum(numbers);
 
             //assert
-            result.Should().Be(1);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
@@ -40,12 +41,13 @@ namespace StringCalculator.Tests
         {
             //arrange
             var numbers = "2,3";
+            var expectedResult = 5;
 
             //act
             var result = _service.Sum(numbers);
 
             //assert
-            result.Should().Be(5);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
@@ -53,12 +55,13 @@ namespace StringCalculator.Tests
         {
             //arrange
             var numbers = "2,3,4,5";
+            var expectedResult = 14;
 
             //act
             var result = _service.Sum(numbers);
 
             //assert
-            result.Should().Be(14);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
@@ -66,12 +69,13 @@ namespace StringCalculator.Tests
         {
             //arrange
             var numbers = "1\n2,3";
+            var expectedResult = 6;
 
             //act
             var result = _service.Sum(numbers);
 
             //assert
-            result.Should().Be(6);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
@@ -79,12 +83,13 @@ namespace StringCalculator.Tests
         {
             //arrange
             var numbers = "//;\n1;2";
+            var expectedResult = 3;
 
             //act
             var result = _service.Sum(numbers);
 
             //assert
-            result.Should().Be(3);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
@@ -92,22 +97,12 @@ namespace StringCalculator.Tests
         {
             //arrange
             var numbers = "//;\n1;2;-3;-5";
-            var exception = new Exception();
-            var expectedType = typeof(ArgumentException);
             var expectedMessage = "negatives not allowed: -3 -5";
             //act
-            try
-            {
-                _service.Sum(numbers);
-            }
-            catch (Exception e)
-            {
-                exception = e;
-            }
+            var exception = Assert.Throws<ArgumentException>(() => _service.Sum(numbers));
 
             //assert
-            exception.GetType().Should().Be(expectedType);
-            exception.Message.Should().Be(expectedMessage);
+            Assert.Equal(expectedMessage, exception.Message);
         }
 
         [Fact]
@@ -115,12 +110,12 @@ namespace StringCalculator.Tests
         {
             //arrange
             var numbers = "//;\n1;2;1001;1";
-
+            var expectedResult = 4;
             //act
             var result = _service.Sum(numbers);
 
             //assert
-            result.Should().Be(4);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
@@ -128,12 +123,13 @@ namespace StringCalculator.Tests
         {
             //arrange
             var numbers = "//[***]\n1***2***3";
+            var expectedResult = 6;
 
             //act
             var result = _service.Sum(numbers);
 
             //assert
-            result.Should().Be(6);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
@@ -141,12 +137,13 @@ namespace StringCalculator.Tests
         {
             //arrange
             var numbers = "//[*][%]\n1*2%3";
+            var expectedResult = 6;
 
             //act
             var result = _service.Sum(numbers);
 
             //assert
-            result.Should().Be(6);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
@@ -154,12 +151,13 @@ namespace StringCalculator.Tests
         {
             //arrange
             var numbers = "//[***][%%%]\n1***2%%%3";
+            var expectedResult = 6;
 
             //act
             var result = _service.Sum(numbers);
 
             //assert
-            result.Should().Be(6);
+            Assert.Equal(expectedResult, result);
         }
     }
 }
