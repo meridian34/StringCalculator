@@ -8,60 +8,20 @@ namespace StringCalculator.Tests
     {
         private readonly StringCalculatorService _service = new StringCalculatorService();
 
-        [Fact]
-        public void Sum_EmptyString_ShouldReturnZero()
+        [Theory]
+        [InlineData("", 0)]
+        [InlineData("1", 1)]
+        [InlineData("1,2", 3)]
+        [InlineData("2,3,4,5", 14)]
+        public void Sum_String_ShouldReturnSum(string numbers, int expectedResult)
         {
             //arrange
-            var numbers = "";
-            var expectedResult = 0;
-
+            
             //act
             var result = _service.Sum(numbers);
 
             //assert
             Assert.Equal(result, expectedResult);
-        }
-
-        [Fact]
-        public void Sum_OneNumber_ShouldReturnOneNumber()
-        {
-            //arrange
-            var numbers = "1";
-            var expectedResult = 1;
-
-            //act
-            var result = _service.Sum(numbers);
-
-            //assert
-            Assert.Equal(expectedResult, result);
-        }
-
-        [Fact]
-        public void Sum_TwoNumbers_ShouldReturnSum()
-        {
-            //arrange
-            var numbers = "2,3";
-            var expectedResult = 5;
-
-            //act
-            var result = _service.Sum(numbers);
-
-            //assert
-            Assert.Equal(expectedResult, result);
-        }
-
-        [Fact]
-        public void Sum_MultipleNumbers_ShouldReturnSum()
-        {
-            //arrange
-            var numbers = "2,3,4,5";
-            var expectedResult = 14;
-
-            //act
-            var result = _service.Sum(numbers);
-
-            //assert
-            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
@@ -132,29 +92,15 @@ namespace StringCalculator.Tests
             Assert.Equal(expectedResult, result);
         }
 
-        [Fact]
-        public void Sum_MultipleNumbersWithMultipleDelimiter_ShouldReturnSum()
+        [Theory]
+        [InlineData("//[*][%]\\n1*2%3", 6)]
+        [InlineData("//[***][%%%]\\n1***2%%%3", 6)]
+        public void Sum_MultipleNumbersWithMultipleLongDelimiters_ShouldReturnSum(string dataWithCustomDelimiter, int expectedResult)
         {
             //arrange
-            var numbers = "//[*][%]\\n1*2%3";
-            var expectedResult = 6;
-
+            
             //act
-            var result = _service.Sum(numbers);
-
-            //assert
-            Assert.Equal(expectedResult, result);
-        }
-
-        [Fact]
-        public void Sum_MultipleNumbersWithMultipleLongDelimiter_ShouldReturnSum()
-        {
-            //arrange
-            var numbers = "//[***][%%%]\\n1***2%%%3";
-            var expectedResult = 6;
-
-            //act
-            var result = _service.Sum(numbers);
+            var result = _service.Sum(dataWithCustomDelimiter);
 
             //assert
             Assert.Equal(expectedResult, result);
