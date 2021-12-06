@@ -9,7 +9,7 @@ namespace StringCalculator.Services
     public class StringCalculatorService
     {
         private const string _startCustomDelimiterDataMarker = "//";
-        private const string _endCustomDelimiterDataMarker = "\n";
+        private const string _endCustomDelimiterDataMarker = "\\n";
 
         public virtual int Sum(string data)
         {
@@ -79,9 +79,9 @@ namespace StringCalculator.Services
 
         
 
-        private IReadOnlyCollection<int> GetNumbers(string data, IReadOnlyCollection<string> delimiters)
+        private IReadOnlyCollection<int> GetNumbers(string dataBlock, IReadOnlyCollection<string> delimiters)
         {
-            var splitData = data.Split(delimiters.ToArray<string>(), StringSplitOptions.None);
+            var splitData = dataBlock.Split(delimiters.ToArray<string>(), StringSplitOptions.None);
             var numbers = new List<int>(splitData.Length);
 
             foreach (var i in splitData)

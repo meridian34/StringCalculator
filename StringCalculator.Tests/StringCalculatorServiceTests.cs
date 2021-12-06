@@ -82,7 +82,7 @@ namespace StringCalculator.Tests
         public void Sum_TwoNumbersWithCustomDelimiter_ShouldReturnSum()
         {
             //arrange
-            var numbers = "//;\n1;2";
+            var numbers = "//;\\n1;2";
             var expectedResult = 3;
 
             //act
@@ -96,7 +96,7 @@ namespace StringCalculator.Tests
         public void Sum_MultipleNumbersWithNegativeNumbers_ShouldReturnException()
         {
             //arrange
-            var numbers = "//;\n1;2;-3;-5";
+            var numbers = "//;\\n1;2;-3;-5";
             var expectedMessage = "negatives not allowed: -3 -5";
             //act
             var exception = Assert.Throws<ArgumentException>(() => _service.Sum(numbers));
@@ -109,7 +109,7 @@ namespace StringCalculator.Tests
         public void Sum_MultipleNumbersWithBiggerNumber_ShouldReturnSumWithoutBiggerNumber()
         {
             //arrange
-            var numbers = "//;\n1;2;1001;1";
+            var numbers = "//;\\n1;2;1001;1";
             var expectedResult = 4;
             //act
             var result = _service.Sum(numbers);
@@ -122,7 +122,7 @@ namespace StringCalculator.Tests
         public void Sum_MultipleNumbersWithLongDelimiter_ShouldReturnSum()
         {
             //arrange
-            var numbers = "//[***]\n1***2***3";
+            var numbers = "//[***]\\n1***2***3";
             var expectedResult = 6;
 
             //act
@@ -136,7 +136,7 @@ namespace StringCalculator.Tests
         public void Sum_MultipleNumbersWithMultipleDelimiter_ShouldReturnSum()
         {
             //arrange
-            var numbers = "//[*][%]\n1*2%3";
+            var numbers = "//[*][%]\\n1*2%3";
             var expectedResult = 6;
 
             //act
@@ -150,7 +150,7 @@ namespace StringCalculator.Tests
         public void Sum_MultipleNumbersWithMultipleLongDelimiter_ShouldReturnSum()
         {
             //arrange
-            var numbers = "//[***][%%%]\n1***2%%%3";
+            var numbers = "//[***][%%%]\\n1***2%%%3";
             var expectedResult = 6;
 
             //act
