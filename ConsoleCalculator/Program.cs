@@ -1,6 +1,5 @@
 ﻿using ConsoleCalculator.Services;
 using StringCalculator.Services;
-using System;
 
 namespace ConsoleCalculator
 {

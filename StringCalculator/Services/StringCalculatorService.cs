@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace StringCalculator.Services
 {
@@ -99,9 +97,11 @@ namespace StringCalculator.Services
         private void Validate(IReadOnlyCollection<int> numbers)
         {
             var isNegativeNumbers = numbers.Any(x => x < 0);
+
             if (isNegativeNumbers)
             {
                 var negativeNumbers = numbers.Where(x => x < 0);
+
                 throw new ArgumentException($"negatives not allowed: {string.Join(" ", negativeNumbers)}");
             }
         }

@@ -1,8 +1,8 @@
 using System;
-using ConsoleCalculator.Services;
 using Moq;
-using StringCalculator.Services;
 using Xunit;
+using StringCalculator.Services;
+using ConsoleCalculator.Services;
 
 namespace ConsoleCalculator.Tests
 {
@@ -48,6 +48,26 @@ namespace ConsoleCalculator.Tests
 
             //assert
             _consoleService.Verify(x => x.WriteLine(It.Is<string>(s => s == "Result is: 3")) );
+        }
+
+        [Fact]
+        public void Start_InvokeMethodAndInputCalculateData_ShouldPrintQuestionAfrerPrintSum()
+        {
+            //arrange
+            _consoleService.SetupSequence(x => x.ReadLine())
+                .Returns("1,2");
+
+            _stringCalculatorService.SetupSequence(x => x.Sum(It.Is<string>(s => s == "1,2")))
+                .Returns(3);
+
+            _consoleCalculateService = new Mock<ConsoleCalculateService>(_stringCalculatorService.Object, _consoleService.Object) { CallBase = true };
+
+            //act
+            _consoleCalculateService.Object.Start();
+
+            //assert
+            _consoleService.Verify(x => x.WriteLine(It.Is<string>(s => s == "Result is: 3")));
+            _consoleService.Verify(x => x.WriteLine(It.Is<string>(s => s == "Result is: 9")));
         }
 
         [Fact]

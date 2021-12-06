@@ -26,7 +26,9 @@ namespace ConsoleCalculator.Services
         private void TryCalculateAgain()
         {
             _consoleService.WriteLine("you can enter other numbers (enter to exit)?");
+
             var data = _consoleService.ReadLine();
+
             if (!string.IsNullOrEmpty(data))
             {
                 var sum = _stringCalculatorService.Sum(data);

@@ -1,5 +1,4 @@
 ﻿using System;
-using StringCalculator.Services;
 
 namespace ConsoleCalculator.Services
 {
