@@ -12,6 +12,7 @@ namespace ConsoleCalculator.Services
     {
         private readonly IConsoleService _consoleService;
         private readonly IStringCalculatorService _stringCalculatorService;
+
         public ConsoleCalculateService(IStringCalculatorService stringCalculatorService, IConsoleService consoleService)
         {
             _stringCalculatorService = stringCalculatorService;
@@ -24,6 +25,7 @@ namespace ConsoleCalculator.Services
             var data = _consoleService.ReadLine();
             var sum = _stringCalculatorService.Sum(data);
             _consoleService.WriteLine($"Result is: {sum}");
+
             TryCalculateAgain();
         }
 

@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StringCalculator.Services
 {
@@ -22,7 +20,10 @@ namespace StringCalculator.Services
             var delimiters = GetDelimiters(data);
             var numbers = GetNumbers(data, delimiters);
             var filtredNumbers = FilterNumbers(numbers);
-            return filtredNumbers.Sum();
+
+            return filtredNumbers
+
+                .Sum();
         }
 
         private IReadOnlyCollection<string> GetDelimiters(string data)

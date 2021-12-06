@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\ConsoleCalculator\ConsoleCalculator.csproj" />
-    <ProjectReference Include="..\src\StringCalculator\StringCalculator.csproj" />
+    <ProjectReference Include="..\ConsoleCalculator\ConsoleCalculator.csproj" />
+    <ProjectReference Include="..\StringCalculator\StringCalculator.csproj" />
   </ItemGroup>
 
 </Project>
