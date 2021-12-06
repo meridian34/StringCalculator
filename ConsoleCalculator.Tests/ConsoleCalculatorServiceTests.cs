@@ -36,10 +36,11 @@ namespace ConsoleCalculator.Tests
             _consoleCalculateService = new ConsoleCalculateService(_stringCalculatorService.Object, _consoleService.Object);
 
             //act
-            
             _consoleCalculateService.Start();
 
             //assert
+            _consoleService.Verify(x => x.ReadLine(), Times.AtLeast(3));
+            _stringCalculatorService.Verify(x => x.Sum(It.Is<string>(s => s == "1,2" || s == "4,5")), Times.AtLeast(2));
             _consoleService.Verify(x => x.WriteLine(It.Is<string>(s => s == "3" ||
                                                                         s == "9" ||
                                                                         s == "Enter comma separated numbers (enter to exit):" ||
