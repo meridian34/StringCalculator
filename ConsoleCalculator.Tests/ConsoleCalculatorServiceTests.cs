@@ -21,7 +21,7 @@ namespace ConsoleCalculator.Tests
         }
 
         [Fact]
-        public void Start_InvokeStartMethod_ShouldVerified()
+        public void Start_InvokeMethod_ShouldVerified()
         {
             //arrange
             _consoleService.SetupSequence(x => x.ReadLine())
