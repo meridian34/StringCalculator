@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleCalculator.Services.Abstractions
 {
-    interface IConsoleCalculateService
+    public interface IConsoleCalculateService
     {
         void Start();
     }
