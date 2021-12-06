@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace StringCalculator.Services
 {
@@ -11,18 +13,33 @@ namespace StringCalculator.Services
 
         public virtual int Sum(string data)
         {
+            var biggerNumber = 1000;
+
             if (string.IsNullOrWhiteSpace(data))
             {
                 return 0;
             }
 
             var delimiters = GetDelimiters(data);
-            var numbers = GetNumbers(data, delimiters);
-            var filtredNumbers = FilterNumbers(numbers);
+            var numbersDataBlock = GetNumbersData(data);
+            var numbers = GetNumbers(numbersDataBlock, delimiters);
 
-            return filtredNumbers
+            Validate(numbers);
 
-                .Sum();
+            return numbers.Where(x => x < biggerNumber).Sum();
+        }
+
+        private string GetNumbersData(string data)
+        {
+            var isCustomBlock = data.Contains(_startCustomDelimiterDataMarker);
+            if (isCustomBlock)
+            {
+                var numbersDataBlock = data.Split(_endCustomDelimiterDataMarker)[1];
+
+                return numbersDataBlock;
+            }
+
+            return data;
         }
 
         private IReadOnlyCollection<string> GetDelimiters(string data)
@@ -31,8 +48,9 @@ namespace StringCalculator.Services
             var longDelimiterStartMarker = "[";
             var longDelimiterEndMarker = "]";
             var result = new List<string>();
-           
-            if (IsContainsCustomDelimiter(data))
+
+            var isCustomDelimiterBlock = data.Contains(_endCustomDelimiterDataMarker) && data.Contains(_startCustomDelimiterDataMarker);
+            if (isCustomDelimiterBlock)
             {
                 var separatedData = data.Split(_endCustomDelimiterDataMarker);
                 var delimiterBody = separatedData[0].Replace(_startCustomDelimiterDataMarker, string.Empty);
@@ -40,8 +58,10 @@ namespace StringCalculator.Services
 
                 if (isLongCustomerDelimiter)
                 {
-                    var separator = new string[] { longDelimiterStartMarker, longDelimiterEndMarker };
-                    var splitDelimiters = delimiterBody.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                    var tempDelimiterBody = delimiterBody.Remove(0, 1);
+                    tempDelimiterBody = tempDelimiterBody.Remove(tempDelimiterBody.Length - 1, 1);
+                    var separator = $"{longDelimiterEndMarker}{longDelimiterStartMarker}";
+                    var splitDelimiters = tempDelimiterBody.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                     result.AddRange(splitDelimiters);
 
                     return result;
@@ -57,13 +77,10 @@ namespace StringCalculator.Services
             return defaultDelimiters;
         }
 
+        
+
         private IReadOnlyCollection<int> GetNumbers(string data, IReadOnlyCollection<string> delimiters)
         {
-            if (IsContainsCustomDelimiter(data))
-            {
-                data = data.Split(_endCustomDelimiterDataMarker)[1];
-            }
-            
             var splitData = data.Split(delimiters.ToArray<string>(), StringSplitOptions.None);
             var numbers = new List<int>(splitData.Length);
 
@@ -79,23 +96,14 @@ namespace StringCalculator.Services
             return numbers;
         }
 
-        private bool IsContainsCustomDelimiter(string data)
+        private void Validate(IReadOnlyCollection<int> numbers)
         {
-            return data.Contains(_endCustomDelimiterDataMarker) && data.Contains(_startCustomDelimiterDataMarker);
-        }
-
-
-        private IReadOnlyCollection<int> FilterNumbers(IReadOnlyCollection<int> numbers)
-        {
-            var biggerNumber = 1000;
-            var negativeNumbers = numbers.Where(x => x < 0).ToList();
-
-            if (negativeNumbers.Count > 0)
+            var isNegativeNumbers = numbers.Any(x => x < 0);
+            if (isNegativeNumbers)
             {
+                var negativeNumbers = numbers.Where(x => x < 0);
                 throw new ArgumentException($"negatives not allowed: {string.Join(" ", negativeNumbers)}");
             }
-
-            return numbers.Where(x => x < biggerNumber).ToList();
         }
     }
 }
