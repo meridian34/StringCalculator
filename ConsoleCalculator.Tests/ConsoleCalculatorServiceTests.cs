@@ -65,9 +65,8 @@ namespace ConsoleCalculator.Tests
             //act
             _consoleCalculateService.Object.Start();
 
-            //assert
-            _consoleService.Verify(x => x.WriteLine(It.Is<string>(s => s == "Result is: 3")));
-            _consoleService.Verify(x => x.WriteLine(It.Is<string>(s => s == "Result is: 9")));
+            //assert            
+            _consoleService.Verify(x => x.WriteLine(It.Is<string>(s => s == "you can enter other numbers (enter to exit)?")));
         }
 
         [Fact]
