@@ -6,8 +6,8 @@ namespace StringCalculator.Services
 {
     public class StringCalculatorService
     {
-        private const string _startCustomDelimiterDataMarker = "//";
-        private const string _endCustomDelimiterDataMarker = "\\n";
+        private const string _startCustomDelimiter = "//";
+        private const string _endCustomDelimiter = "\\n";
 
         public virtual int Sum(string data)
         {
@@ -29,10 +29,10 @@ namespace StringCalculator.Services
 
         private string GetNumbersData(string data)
         {
-            var isCustomBlock = data.Contains(_startCustomDelimiterDataMarker);
+            var isCustomBlock = data.Contains(_startCustomDelimiter);
             if (isCustomBlock)
             {
-                var numbersDataBlock = data.Split(_endCustomDelimiterDataMarker)[1];
+                var numbersDataBlock = data.Split(_endCustomDelimiter)[1];
 
                 return numbersDataBlock;
             }
@@ -43,22 +43,22 @@ namespace StringCalculator.Services
         private IReadOnlyCollection<string> GetDelimiters(string data)
         {
             var defaultDelimiters = new string[] { ",", "\n" };
-            var longDelimiterStartMarker = "[";
-            var longDelimiterEndMarker = "]";
+            var startLongDelimiter = "[";
+            var endLongDelimiter = "]";
             var result = new List<string>();
 
-            var isCustomDelimiterBlock = data.Contains(_endCustomDelimiterDataMarker) && data.Contains(_startCustomDelimiterDataMarker);
-            if (isCustomDelimiterBlock)
+            var isCustomDelimiter = data.Contains(_endCustomDelimiter) && data.Contains(_startCustomDelimiter);
+            if (isCustomDelimiter)
             {
-                var separatedData = data.Split(_endCustomDelimiterDataMarker);
-                var delimiterBody = separatedData[0].Replace(_startCustomDelimiterDataMarker, string.Empty);
-                var isLongCustomerDelimiter = delimiterBody.Contains(longDelimiterStartMarker) && delimiterBody.Contains(longDelimiterEndMarker);
+                var separatedData = data.Split(_endCustomDelimiter);
+                var delimiterBody = separatedData[0].Replace(_startCustomDelimiter, string.Empty);
+                var isLongDelimiter = delimiterBody.Contains(startLongDelimiter) && delimiterBody.Contains(endLongDelimiter);
 
-                if (isLongCustomerDelimiter)
+                if (isLongDelimiter)
                 {
                     var tempDelimiterBody = delimiterBody.Remove(0, 1);
                     tempDelimiterBody = tempDelimiterBody.Remove(tempDelimiterBody.Length - 1, 1);
-                    var separator = $"{longDelimiterEndMarker}{longDelimiterStartMarker}";
+                    var separator = $"{endLongDelimiter}{startLongDelimiter}";
                     var splitDelimiters = tempDelimiterBody.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                     result.AddRange(splitDelimiters);
 
